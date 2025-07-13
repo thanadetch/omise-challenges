@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"go-tamboon/config"
-	"go-tamboon/models"
 	"go-tamboon/services"
 	"go-tamboon/utils"
 	"os"
@@ -33,14 +32,9 @@ func main() {
 	}
 
 	donationService := services.NewDonationService(omiseClient)
-	var successfulDonations []*models.Donation
+	successfulDonations := donationService.ProcessDonations(donations)
+	utils.ClearSensitiveData(donations)
 
-	for _, donation := range donations {
-		_, err := donationService.Donate(donation)
-		if err == nil {
-			successfulDonations = append(successfulDonations, donation)
-		}
-	}
 	fmt.Println("done.")
 	utils.SummaryDonations(donations, successfulDonations)
 }

@@ -7,31 +7,37 @@ import (
 	"sort"
 )
 
+func convertSatangToTHB(satang float64) float64 {
+	return satang / 100
+}
+
 func SummaryDonations(donations []*models.Donation, successfulDonations []*models.Donation) {
-	totalReceived := int64(0)
-	successfullyDonated := int64(0)
+	totalReceived := float64(0)
+	successfullyDonated := float64(0)
 	var topDonors []string
 
 	for _, donation := range donations {
-		totalReceived += donation.Amount
+		totalReceived += float64(donation.Amount)
 	}
+	totalReceived = convertSatangToTHB(totalReceived)
 
 	sort.Slice(successfulDonations, func(i, j int) bool {
 		return successfulDonations[i].Amount > successfulDonations[j].Amount
 	})
 
 	for i, donation := range successfulDonations {
-		successfullyDonated += donation.Amount
+		successfullyDonated += float64(donation.Amount)
 		if i < 3 {
 			topDonors = append(topDonors, donation.Name)
 		}
 	}
+	successfullyDonated = convertSatangToTHB(successfullyDonated)
 
 	donationSummary := &models.DonationSummary{
 		TotalReceived:       totalReceived,
 		SuccessfullyDonated: successfullyDonated,
 		FaultyDonation:      totalReceived - successfullyDonated,
-		AveragePerPerson:    float64(successfullyDonated) / float64(len(donations)),
+		AveragePerPerson:    successfullyDonated / float64(len(donations)),
 		TopDonors:           topDonors,
 	}
 
@@ -44,9 +50,9 @@ func PrintSummaryDonations(donationSummary *models.DonationSummary) {
 	}
 
 	fmt.Println()
-	fmt.Printf("%22s THB %16s\n", "total received:", format(float64(donationSummary.TotalReceived)))
-	fmt.Printf("%22s THB %16s\n", "successfully donated:", format(float64(donationSummary.SuccessfullyDonated)))
-	fmt.Printf("%22s THB %16s\n", "faulty donation:", format(float64(donationSummary.FaultyDonation)))
+	fmt.Printf("%22s THB %16s\n", "total received:", format(donationSummary.TotalReceived))
+	fmt.Printf("%22s THB %16s\n", "successfully donated:", format(donationSummary.SuccessfullyDonated))
+	fmt.Printf("%22s THB %16s\n", "faulty donation:", format(donationSummary.FaultyDonation))
 	fmt.Println()
 	fmt.Printf("%22s THB %16s\n", "average per person:", format(donationSummary.AveragePerPerson))
 	fmt.Printf("%22s", "top donors:")

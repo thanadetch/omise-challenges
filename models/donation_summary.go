@@ -1,9 +1,9 @@
 package models
 
 type DonationSummary struct {
-	TotalReceived       int64
-	SuccessfullyDonated int64
-	FaultyDonation      int64
+	TotalReceived       float64
+	SuccessfullyDonated float64
+	FaultyDonation      float64
 	AveragePerPerson    float64
 	TopDonors           []string
 }

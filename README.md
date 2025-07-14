@@ -64,6 +64,33 @@ done.
   in memory, or on disk.
 * Ensure reproducible builds on your workspace.
 
- [0]: https://www.omise.co/charges-api
- [1]: https://en.wikipedia.org/wiki/Caesar_cipher
- [2]: https://play.golang.org/p/dCWYyWPHwj4
+[0]: https://www.omise.co/charges-api
+
+[1]: https://en.wikipedia.org/wiki/Caesar_cipher
+
+[2]: https://play.golang.org/p/dCWYyWPHwj4
+
+## Setup
+
+1. **Set up environment variables:**
+    - Copy `.env.example` to `.env` and fill in required values.
+
+## How to Run
+
+To process a donation CSV file:
+
+```sh
+go run main.go data/fng.10.modified.csv.rot128
+```
+
+- Replace the `--file` argument with the path to your encrypted CSV file.
+- The program will decrypt, process donations, and print a summary.
+
+## File Naming Convention
+
+- Encrypted CSV files convention named as:  
+  `fng.<N>.<optional-modifiers>.csv.rot128`
+    - `<N>`: Number of records (e.g., 10, 50, 1000)
+    - `<optional-modifiers>`: Any additional info (e.g., `modified`, `2Failed`)
+    - Example: `fng.20.modified.2Failed.csv.rot128`
+

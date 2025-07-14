@@ -9,6 +9,18 @@ import (
 	"os"
 )
 
+func ValidateFileExists(path string) error {
+	if path == "" {
+		return fmt.Errorf("file path is empty")
+	}
+
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		return fmt.Errorf("file does not exist: %s", path)
+	}
+
+	return nil
+}
+
 func ReadDonationsFromEncryptedFile(filePath string) ([]*models.Donation, error) {
 	file, err := os.Open(filePath)
 	if err != nil {

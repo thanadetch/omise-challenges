@@ -77,13 +77,17 @@ done.
 
 ## How to Run
 
-To process a donation CSV file:
+```sh
+go install -v .
+$GOPATH/bin/go-tamboon data/fng.10.modified.csv.rot128
+```
+
+or
 
 ```sh
 go run main.go data/fng.10.modified.csv.rot128
 ```
 
-- Replace the `--file` argument with the path to your encrypted CSV file.
 - The program will decrypt, process donations, and print a summary.
 
 ## File Naming Convention

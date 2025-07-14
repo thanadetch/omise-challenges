@@ -11,6 +11,10 @@ import (
 func main() {
 	fmt.Println("performing donations...")
 	csvFilePath := os.Args[1]
+	if err := utils.ValidateFileExists(csvFilePath); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 
 	err := config.LoadConfig()
 
